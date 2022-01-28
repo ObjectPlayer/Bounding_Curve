@@ -12,6 +12,7 @@ class App extends React.Component {
       userActualBlance: 0,
       userTempTokens: 0,
       userActualtokens: 0,
+      currentPrice: 0,
     }
 
     this.boudningCurve = new BoundingCurve()
@@ -28,7 +29,21 @@ class App extends React.Component {
   }
 
   purchaseTokens = () => {
-    this.boudningCurve.purchaseToken(this.state.userTempTokens)
+    if (this.state.userActualBlance >= this.state.userTempBalance) {
+      this.boudningCurve.purchaseToken(this.state.userTempTokens)
+      this.updateData()
+    } else {
+      alert("Enough Balance, kindly get some $")
+    }
+  }
+
+  getTokenPrice = () => {
+    return this.boudningCurve.getCurrentPrice()
+  }
+
+  updateData = () => {
+    this.showBlanace();
+    this.setState({ currentPrice: this.getTokenPrice() })
   }
 
 
@@ -58,10 +73,16 @@ class App extends React.Component {
         </p>
 
         <p>
+          <label>Current Price (Token) : </label>
+          <label>{this.state.currentPrice}</label>
+        </p>
+
+        <p>
           <label>Amount ($) : </label>
           <input type="text" value={this.state.userTempTokens} onChange={(e) => this.setState({ userTempTokens: e.target.value })} />
           <input type="button" value={"Purchase"} onClick={this.purchaseTokens} />
         </p>
+
 
 
       </div>

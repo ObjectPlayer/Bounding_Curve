@@ -1,7 +1,7 @@
 class BoundingCurve {
     constructor() {
         this.fusdPool = 0;
-        this.reserveRatio = 0.0005;
+        this.reserveRatio = 0.5;
         this.totalSupply = 0;
         this.userBlance = 10000.0;
         this.userTokenBalance = 0;
@@ -25,7 +25,17 @@ class BoundingCurve {
         let tokenAmountMinted = this.amountShouldBeMinted(fusdAmount);
         this.userBlance -= fusdAmount;
         this.userTokenBalance += tokenAmountMinted;
+        this.fusdPool += fusdAmount;
+        this.totalSupply += tokenAmountMinted;
+
     };
+
+    getCurrentPrice = () => {
+        if (this.fusdPool)
+            return this.fusdPool / (this.totalSupply * this.reserveRatio)
+        else
+            return this.reserveRatio;
+    }
 
     showUserBalance = () => {
         return { userBalance: this.userBlance, userTokens: this.userTokenBalance }
