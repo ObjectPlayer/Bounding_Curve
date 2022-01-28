@@ -8,8 +8,10 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      userBalance: 0,
-      userTokens: 0
+      userTempBalance: 0,
+      userActualBlance: 0,
+      userTempTokens: 0,
+      userActualtokens: 0,
     }
 
     this.boudningCurve = new BoundingCurve()
@@ -18,8 +20,15 @@ class App extends React.Component {
 
   showBlanace = () => {
     let { userBalance, userTokens } = this.boudningCurve.showUserBalance()
+    this.setState({ userActualBlance: userBalance, userActualtokens: userTokens })
+  }
 
-    this.setState({ userBalance, userTokens })
+  setUserBalance = () => {
+    this.boudningCurve.setUserBalance(this.state.userTempBalance)
+  }
+
+  purchaseTokens = () => {
+    this.boudningCurve.purchaseToken(this.state.userTempTokens)
   }
 
 
@@ -28,24 +37,33 @@ class App extends React.Component {
       <div className="App">
         <p>
           <label>User Balance : </label>
-          <input type="text" value={this.state.userBalance} onChange={(e) => this.setState({ userBalance: e.target.value })} />
+          <input type="text" value={this.state.userTempBalance} onChange={(e) => this.setState({ userTempBalance: e.target.value })} />
+          <input type="button" value={"Update Balance"} onClick={this.setUserBalance} />
         </p>
 
         <p>
           <span>
             <label>User Balance = </label>
-            <label>{this.state.userBalance}</label>
+            <label>{this.state.userActualBlance}</label>
           </span>
           &nbsp; &nbsp;
           <span>
             <label>User Tokens = </label>
-            <label>{this.state.userTokens}</label>
+            <label>{this.state.userActualtokens}</label>
           </span>
         </p>
 
         <p>
           <input type="button" value={"Update Balance"} onClick={this.showBlanace} />
         </p>
+
+        <p>
+          <label>Amount ($) : </label>
+          <input type="text" value={this.state.userTempTokens} onChange={(e) => this.setState({ userTempTokens: e.target.value })} />
+          <input type="button" value={"Purchase"} onClick={this.purchaseTokens} />
+        </p>
+
+
       </div>
     );
   }

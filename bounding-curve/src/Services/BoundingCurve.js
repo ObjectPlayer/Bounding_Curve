@@ -7,6 +7,10 @@ class BoundingCurve {
         this.userTokenBalance = 0;
     }
 
+    setUserBalance = (fusdAmount) => {
+        this.userBlance += +fusdAmount
+    }
+
     amountShouldBeMinted = (fusdAmount) => {
         let amount = 0;
         if (this.totalSupply)
