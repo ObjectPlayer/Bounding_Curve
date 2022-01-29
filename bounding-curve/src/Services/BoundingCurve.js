@@ -1,7 +1,7 @@
 class BoundingCurve {
     constructor() {
         this.fusdPool = 0;
-        this.slope = 0.5;
+        this.slope = 0.0005;
         this.maxSupply = 100000000;
         this.totalSupply = 0;
         this.userBlance = 36605661082;
