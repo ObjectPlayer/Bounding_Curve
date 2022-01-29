@@ -57,13 +57,6 @@ class App extends React.Component {
     this.boudningCurve = new BoundingCurve()
   }
 
-  componentDidMount() {
-    let reserveAmount = this.boudningCurve.reserve;
-    let totalSupply = this.boudningCurve.totalSupply;
-
-    this.setState({ reserveAmount, totalSupply })
-  }
-
   showBlanace = () => {
     let { userBalance, userTokens } = this.boudningCurve.showUserBalance()
     this.setState({ userActualBlance: userBalance, userActualtokens: userTokens })
@@ -71,6 +64,7 @@ class App extends React.Component {
 
   setUserBalance = () => {
     this.boudningCurve.setUserBalance(this.state.userTempBalance)
+    this.showBlanace()
   }
 
   mintTokens = () => {
@@ -117,6 +111,12 @@ class App extends React.Component {
     series[0].data.push(mintPrice)
 
     this.setState({ series, options: { ...this.state.options, xaxis: { categories: newCategories } } })
+
+    let reserveAmount = this.boudningCurve.reserve;
+    let totalSupply = this.boudningCurve.totalSupply;
+
+    this.setState({ reserveAmount, totalSupply })
+
   }
 
   render() {
