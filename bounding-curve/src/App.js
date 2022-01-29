@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import React from 'react';
 import BoundingCurve from './Services/BoundingCurve';
+import Chart from 'react-apexcharts'
 
 class App extends React.Component {
   constructor(props) {
@@ -9,10 +10,47 @@ class App extends React.Component {
 
     this.state = {
       userTempBalance: 0,
-      userActualBlance: 0,
+      userActualBlance: 10000,
       userTempTokens: 0,
       userActualtokens: 0,
-      currentPrice: 0,
+      mintPrice: 0,
+      mintingAmount: 0,
+
+      chartData: {
+        series: [{
+          name: "Price",
+          data: []
+        }],
+        options: {
+          chart: {
+            height: 350,
+            type: 'line',
+            zoom: {
+              enabled: false
+            }
+          },
+          dataLabels: {
+            enabled: false
+          },
+          stroke: {
+            curve: 'straight'
+          },
+          title: {
+            text: 'Token Graph',
+            align: 'left'
+          },
+          grid: {
+            row: {
+              colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+              opacity: 0.5
+            },
+          },
+          xaxis: {
+            categories: [],
+          }
+        }
+
+      }
     }
 
     this.boudningCurve = new BoundingCurve()
@@ -28,22 +66,32 @@ class App extends React.Component {
     this.boudningCurve.setUserBalance(this.state.userTempBalance)
   }
 
-  purchaseTokens = () => {
-    if (this.state.userActualBlance >= this.state.userTempBalance) {
-      this.boudningCurve.purchaseToken(this.state.userTempTokens)
+  mintTokens = () => {
+    if (this.state.userActualBlance - this.state.mintPrice >= 0) {
+      this.boudningCurve.mintToken(this.state.mintingAmount, this.state.mintPrice);
       this.updateData()
     } else {
       alert("Enough Balance, kindly get some $")
     }
   }
 
-  getTokenPrice = () => {
-    return this.boudningCurve.getCurrentPrice()
+  updateMintPrice = (amount) => {
+    let mintPrice = this.boudningCurve.getMintPrice(amount);
+    this.setState({ mintPrice, mintingAmount: amount })
   }
 
   updateData = () => {
     this.showBlanace();
-    this.setState({ currentPrice: this.getTokenPrice() })
+    let tokenPrice = this.getTokenPrice();
+    let totalSupply = this.boudningCurve.totalSupply
+
+
+    let chartData = this.state.chartData;
+    // chartData.options.xaxis.categories.push(totalSupply)
+
+    // chartData.series[0].data.push(tokenPrice)
+
+    this.setState({ currentPrice: tokenPrice, chartData })
   }
 
 
@@ -73,17 +121,14 @@ class App extends React.Component {
         </p>
 
         <p>
-          <label>Current Price (Token) : </label>
-          <label>{this.state.currentPrice}</label>
-        </p>
-
-        <p>
-          <label>Amount ($) : </label>
-          <input type="text" value={this.state.userTempTokens} onChange={(e) => this.setState({ userTempTokens: e.target.value })} />
-          <input type="button" value={"Purchase"} onClick={this.purchaseTokens} />
+          <label>Mint Token : </label>
+          <input type="text" value={this.state.mintingAmount} onChange={(e) => this.updateMintPrice(e.target.value)} />
+          <label>You will pay: ${this.state.mintPrice}</label>
+          <input type="button" value={"Mint"} onClick={this.mintTokens} />
         </p>
 
 
+        {/* <Chart options={this.state.chartData.options} series={this.state.chartData.series} type="line" height={350} /> */}
 
       </div>
     );
