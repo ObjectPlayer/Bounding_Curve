@@ -1,7 +1,7 @@
 class BoundingCurve {
     constructor() {
         this.fusdPool = 0;
-        this.slope = 0.0005;
+        this.slope = 0.5;
         this.maxSupply = 100000000;
         this.totalSupply = 0;
         this.userBlance = 10000.0;
@@ -18,6 +18,9 @@ class BoundingCurve {
 
     mintToken = (amount, fusdAmount) => {
 
+        amount = +amount;
+        fusdAmount = +fusdAmount;
+        
         let mintPrice = this.getMintPrice(amount);
         let supply = this.totalSupply;
         let fee = (mintPrice * 15)/100;
@@ -31,6 +34,8 @@ class BoundingCurve {
     };
 
     burnToken = (amount) => {
+        amount = +amount;
+
         let supply = this.totalSupply;
         let burnPrice = this.getBurnPrice(amount);
         
@@ -43,6 +48,8 @@ class BoundingCurve {
 
 
     getMintPrice = (amount) => {
+        amount = +amount;
+
         let supply = this.totalSupply;
         let newSupply = supply + +amount;
         let reserve = this.reserve;
@@ -55,6 +62,8 @@ class BoundingCurve {
     }
 
     getBurnPrice = (amount) => {
+        amount = +amount;
+        
         let supply = this.totalSupply;
         let newSupply = supply - +amount;        
         let reserve = this.reserve;
