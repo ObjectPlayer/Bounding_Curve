@@ -3,6 +3,8 @@ import './App.css';
 import React from 'react';
 import BoundingCurve from './Services/BoundingCurve';
 import Chart from 'react-apexcharts'
+import MintingGraph from './Screens/MintingGraph';
+import BurningGraph from './Screens/BurningGraph';
 
 class App extends React.Component {
   constructor(props) {
@@ -177,6 +179,13 @@ class App extends React.Component {
         </p>
 
         <Chart options={this.state.options} series={this.state.series} type="line" height={350} />
+
+        <div>
+          <MintingGraph />
+
+          <BurningGraph />
+
+        </div>
 
       </div>
     );
