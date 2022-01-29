@@ -11,12 +11,13 @@ class App extends React.Component {
     this.state = {
       userTempBalance: 0,
       userActualBlance: 10000,
-      userTempTokens: 0,
       userActualtokens: 0,
       mintPrice: 0,
       mintingAmount: 0,
       burningPrice: 0,
       burningAmount: 0,
+      reserveAmount: 0,
+      totalSupply: 0,
 
       series: [{
         name: "Price",
@@ -56,6 +57,12 @@ class App extends React.Component {
     this.boudningCurve = new BoundingCurve()
   }
 
+  componentDidMount() {
+    let reserveAmount = this.boudningCurve.reserve;
+    let totalSupply = this.boudningCurve.totalSupply;
+
+    this.setState({ reserveAmount, totalSupply })
+  }
 
   showBlanace = () => {
     let { userBalance, userTokens } = this.boudningCurve.showUserBalance()
@@ -115,13 +122,20 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <p>
-          <label>User Balance : </label>
-          <input type="text" value={this.state.userTempBalance} onChange={(e) => this.setState({ userTempBalance: e.target.value })} />
-          <input type="button" value={"Add USD"} onClick={this.setUserBalance} />
+
+        <p style={{ marginBottom: 20 }}>
+          <span>
+            <label>Pool Balance (Reserve) = </label>
+            <label>{this.state.reserveAmount}</label>
+          </span>
+          &nbsp; &nbsp;
+          <span>
+            <label>Token Supply = </label>
+            <label>{this.state.totalSupply}</label>
+          </span>
         </p>
 
-        <p>
+        <p style={{ marginBottom: 40 }}>
           <span>
             <label>User Balance = </label>
             <label>{this.state.userActualBlance}</label>
@@ -131,17 +145,25 @@ class App extends React.Component {
             <label>User Tokens = </label>
             <label>{this.state.userActualtokens}</label>
           </span>
+          <p>
+            <label>User Balance : </label>
+            <input type="text" value={this.state.userTempBalance} onChange={(e) => this.setState({ userTempBalance: e.target.value })} />
+            <input type="button" value={"Add USD"} onClick={this.setUserBalance} />
+          </p>
+
+          {/* <p>
+            <input type="button" value={"Update Balance"} onClick={this.showBlanace} />
+          </p> */}
+
         </p>
 
-        <p>
-          <input type="button" value={"Update Balance"} onClick={this.showBlanace} />
-        </p>
 
         <p>
           <label>Mint Tokens : </label>
           <input type="text" value={this.state.mintingAmount} onChange={(e) => this.updateMintPrice(e.target.value)} />
           &nbsp; &nbsp;
           <label>You will pay: ${this.state.mintPrice}</label>
+          &nbsp; &nbsp;
           <input type="button" value={"Mint"} onClick={this.mintTokens} />
         </p>
 
@@ -150,6 +172,7 @@ class App extends React.Component {
           <input type="text" value={this.state.burningAmount} onChange={(e) => this.updateBurningPrice(e.target.value)} />
           &nbsp; &nbsp;
           <label>You will get: ${this.state.burningPrice}</label>
+          &nbsp; &nbsp;
           <input type="button" value={"Burn"} onClick={this.burnTokens} />
         </p>
 
