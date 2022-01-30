@@ -97,7 +97,7 @@ class MintingGraph extends React.Component {
 
     render() {
         return (
-            <div className="App">
+            <div className="App" style={{ marginTop: 20, marginBottom: 30, borderStyle: "solid", padding: 5 }}>
 
                 <p style={{ marginBottom: 20 }}>
                     <span>

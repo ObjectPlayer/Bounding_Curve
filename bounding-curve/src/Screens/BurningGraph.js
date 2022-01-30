@@ -65,7 +65,7 @@ class BurningGraph extends React.Component {
 
         for (let i = 0; totalSupply > 0; i++) {
 
-            if(i==26){
+            if (i == 26) {
                 debugger
             }
             let tokenShouldBurn = supply * 2;
@@ -110,7 +110,7 @@ class BurningGraph extends React.Component {
 
     render() {
         return (
-            <div className="App">
+            <div className="App" style={{ marginTop: 20, marginBottom: 30, borderStyle: "solid", padding: 5 }}>
 
                 <p style={{ marginBottom: 20 }}>
                     <span>

@@ -1,192 +1,71 @@
-import logo from './logo.svg';
 import './App.css';
 import React from 'react';
 import BoundingCurve from './Services/BoundingCurve';
-import Chart from 'react-apexcharts'
+import TokenGraph from './Screens/TokenGraph';
 import MintingGraph from './Screens/MintingGraph';
 import BurningGraph from './Screens/BurningGraph';
 
 class App extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
-      userTempBalance: 0,
-      userActualBlance: 10000,
-      userActualtokens: 0,
-      mintPrice: 0,
-      mintingAmount: 0,
-      burningPrice: 0,
-      burningAmount: 0,
-      reserveAmount: 0,
-      totalSupply: 0,
-
-      series: [{
-        name: "Price",
-        data: []
-      }],
-      options: {
-        chart: {
-          height: 350,
-          type: 'line',
-          zoom: {
-            enabled: false
-          }
-        },
-        dataLabels: {
-          enabled: false
-        },
-        stroke: {
-          curve: 'straight'
-        },
-        title: {
-          text: 'Token Graph',
-          align: 'left'
-        },
-        grid: {
-          row: {
-            colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-            opacity: 0.5
-          },
-        },
-        xaxis: {
-          categories: [],
-        }
-      }
-
-    }
-
-    this.boudningCurve = new BoundingCurve()
-  }
-
-  showBlanace = () => {
-    let { userBalance, userTokens } = this.boudningCurve.showUserBalance()
-    this.setState({ userActualBlance: userBalance, userActualtokens: userTokens })
-  }
-
-  setUserBalance = () => {
-    this.boudningCurve.setUserBalance(this.state.userTempBalance)
-    this.showBlanace()
-  }
-
-  mintTokens = () => {
-    if (this.state.userActualBlance - this.state.mintPrice >= 0) {
-      this.boudningCurve.mintToken(this.state.mintingAmount, this.state.mintPrice);
-      this.updateData()
-    } else {
-      alert("Enough Balance, kindly get some $")
+      slope: 0.0005,
+      maxSupply: 100000000,
+      userBalance: 1000000000,
+      artistFee: 0.12,
+      adminFee: 0.03
     }
   }
 
-  burnTokens = () => {
-    debugger;
-    if (this.state.userActualtokens - this.state.burningAmount >= 0) {
-      this.boudningCurve.burnToken(this.state.burningAmount);
-      this.updateData()
-    } else {
-      alert("Enough Tokens, kindly get some Token")
-    }
-  }
-
-
-  updateMintPrice = (amount) => {
-    let mintPrice = this.boudningCurve.getMintPrice(amount);
-    this.setState({ mintPrice, mintingAmount: amount })
-  }
-
-  updateBurningPrice = (amount) => {
-    let burningPrice = this.boudningCurve.getBurnPrice(amount);
-    this.setState({ burningPrice, burningAmount: amount })
-  }
-
-  updateData = () => {
-    this.showBlanace();
-    //let chartData = this.state.chartData;
-
-    let options = this.state.options;
-    let series = this.state.series;
-
-    let newCategories = options.xaxis.categories.push(options.xaxis.categories.length);
-
-    let mintPrice = this.boudningCurve.getMintPrice(1);
-
-    series[0].data.push(mintPrice)
-
-    this.setState({ series, options: { ...this.state.options, xaxis: { categories: newCategories } } })
-
-    let reserveAmount = this.boudningCurve.reserve;
-    let totalSupply = this.boudningCurve.totalSupply;
-
-    this.setState({ reserveAmount, totalSupply })
+  updateBoundingCurveVariables = () => {
 
   }
 
   render() {
     return (
       <div className="App">
+        <div style={{ marginBottom: 30, borderStyle: "solid", padding: 5 }}>
+          <div style={{ marginTop: 20, marginBottom: 10 }}>
+            <span style={{ margin: 10 }}>
+              <label>Token Max Supply : </label>
+              <input type="number" value={this.state.maxSupply} onChange={(e) => this.setState({ maxSupply: e.target.value })} />
+            </span>
+            <span style={{ margin: 10 }}>
+              <label>Slope : </label>
+              <input type="number" step="0.0001" value={this.state.slope} onChange={(e) => this.setState({ slope: e.target.value })} />
+            </span>
+            <span style={{ margin: 10 }}>
+              <label> User Balance ($) : </label>
+              <input type="number" value={this.state.userBalance} onChange={(e) => this.setState({ userBalance: e.target.value })} />
+            </span>
+            <span style={{ margin: 10 }}>
+              <label>Artist Fee : </label>
+              <input type="number" value={this.state.artistFee} onChange={(e) => this.setState({ artistFee: e.target.value })} />
+            </span>
+            <span style={{ margin: 10 }}>
+              <label>Admin Fee : </label>
+              <input type="number" value={this.state.adminFee} onChange={(e) => this.setState({ adminFee: e.target.value })} />
+            </span>
+          </div>
 
-        <p style={{ marginBottom: 20 }}>
-          <span>
-            <label>Pool Balance (Reserve) = </label>
-            <label>{this.state.reserveAmount}</label>
-          </span>
-          &nbsp; &nbsp;
-          <span>
-            <label>Token Supply = </label>
-            <label>{this.state.totalSupply}</label>
-          </span>
-        </p>
-
-        <p style={{ marginBottom: 40 }}>
-          <span>
-            <label>User Balance = </label>
-            <label>{this.state.userActualBlance}</label>
-          </span>
-          &nbsp; &nbsp;
-          <span>
-            <label>User Tokens = </label>
-            <label>{this.state.userActualtokens}</label>
-          </span>
-          <p>
-            <label>User Balance : </label>
-            <input type="text" value={this.state.userTempBalance} onChange={(e) => this.setState({ userTempBalance: e.target.value })} />
-            <input type="button" value={"Add USD"} onClick={this.setUserBalance} />
-          </p>
-
-          {/* <p>
-            <input type="button" value={"Update Balance"} onClick={this.showBlanace} />
-          </p> */}
-
-        </p>
-
-
-        <p>
-          <label>Mint Tokens : </label>
-          <input type="text" value={this.state.mintingAmount} onChange={(e) => this.updateMintPrice(e.target.value)} />
-          &nbsp; &nbsp;
-          <label>You will pay: ${this.state.mintPrice}</label>
-          &nbsp; &nbsp;
-          <input type="button" value={"Mint"} onClick={this.mintTokens} />
-        </p>
-
-        <p>
-          <label>Burn Tokens : </label>
-          <input type="text" value={this.state.burningAmount} onChange={(e) => this.updateBurningPrice(e.target.value)} />
-          &nbsp; &nbsp;
-          <label>You will get: ${this.state.burningPrice}</label>
-          &nbsp; &nbsp;
-          <input type="button" value={"Burn"} onClick={this.burnTokens} />
-        </p>
-
-        <Chart options={this.state.options} series={this.state.series} type="line" height={350} />
-
-        <div>
-          <MintingGraph />
-
-          <BurningGraph />
+          <div >
+            <input type="button" value={"Update Values"} onChange={this.updateBoundingCurveVariables} />
+          </div>
 
         </div>
 
+        <div>
+          <TokenGraph />
+        </div>
+        <div>
+          <div>
+            <MintingGraph />
+          </div>
+          <div>
+            <BurningGraph />
+          </div>
+        </div>
       </div>
     );
   }
