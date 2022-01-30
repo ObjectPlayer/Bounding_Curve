@@ -14,12 +14,20 @@ class App extends React.Component {
       maxSupply: 100000000,
       userBalance: 1000000000,
       artistFee: 0.12,
-      adminFee: 0.03
+      adminFee: 0.03,
+      boundingCurveData: null
     }
   }
 
   updateBoundingCurveVariables = () => {
-
+    let boudningCurveData = {
+      slope: this.state.slope,
+      maxSupply: this.state.maxSupply,
+      userBalance: this.state.userBalance,
+      artistFee: this.state.artistFee,
+      adminFee: this.state.adminFee,
+    }
+    this.setState({ boudningCurveData })
   }
 
   render() {
@@ -41,11 +49,11 @@ class App extends React.Component {
             </span>
             <span style={{ margin: 10 }}>
               <label>Artist Fee : </label>
-              <input type="number" value={this.state.artistFee} onChange={(e) => this.setState({ artistFee: e.target.value })} />
+              <input type="number" step="0.01" min={0} max={1.00} value={this.state.artistFee} onChange={(e) => this.setState({ artistFee: e.target.value })} />
             </span>
             <span style={{ margin: 10 }}>
               <label>Admin Fee : </label>
-              <input type="number" value={this.state.adminFee} onChange={(e) => this.setState({ adminFee: e.target.value })} />
+              <input type="number" step="0.01" min={0} max={1.00} value={this.state.adminFee} onChange={(e) => this.setState({ adminFee: e.target.value })} />
             </span>
           </div>
 
@@ -56,14 +64,32 @@ class App extends React.Component {
         </div>
 
         <div>
-          <TokenGraph />
+          <TokenGraph
+            slope={this.state.boundingCurveData ? this.state.boundingCurveData.slope : this.state.slope}
+            maxSupply={this.state.boundingCurveData ? this.state.boundingCurveData.maxSupply : this.state.maxSupply}
+            userBalance={this.state.boundingCurveData ? this.state.boundingCurveData.userBalance : this.state.userBalance}
+            artistFee={this.state.boundingCurveData ? this.state.boundingCurveData.artistFee : this.state.artistFee}
+            adminFee={this.state.boundingCurveData ? this.state.boundingCurveData.adminFee : this.state.adminFee}
+          />
         </div>
         <div>
           <div>
-            <MintingGraph />
+            <MintingGraph
+              slope={this.state.boundingCurveData ? this.state.boundingCurveData.slope : this.state.slope}
+              maxSupply={this.state.boundingCurveData ? this.state.boundingCurveData.maxSupply : this.state.maxSupply}
+              userBalance={this.state.boundingCurveData ? this.state.boundingCurveData.userBalance : this.state.userBalance}
+              artistFee={this.state.boundingCurveData ? this.state.boundingCurveData.artistFee : this.state.artistFee}
+              adminFee={this.state.boundingCurveData ? this.state.boundingCurveData.adminFee : this.state.adminFee}
+            />
           </div>
           <div>
-            <BurningGraph />
+            <BurningGraph
+              slope={this.state.boundingCurveData ? this.state.boundingCurveData.slope : this.state.slope}
+              maxSupply={this.state.boundingCurveData ? this.state.boundingCurveData.maxSupply : this.state.maxSupply}
+              userBalance={this.state.boundingCurveData ? this.state.boundingCurveData.userBalance : this.state.userBalance}
+              artistFee={this.state.boundingCurveData ? this.state.boundingCurveData.artistFee : this.state.artistFee}
+              adminFee={this.state.boundingCurveData ? this.state.boundingCurveData.adminFee : this.state.adminFee}
+            />
           </div>
         </div>
       </div>
