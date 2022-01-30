@@ -8,7 +8,7 @@ class MintingGraph extends React.Component {
 
         this.state = {
             userTempBalance: 0,
-            userActualBlance: 10000,
+            userActualBlance: 0,
             userActualtokens: 0,
             mintPrice: 0,
             mintingAmount: 0,
@@ -113,7 +113,26 @@ class MintingGraph extends React.Component {
         let totalSupply = this.boudningCurve.totalSupply;
 
         this.setState({ reserveAmount, totalSupply })
+    }
 
+    componentDidMount() {
+        let boundingData = {
+            slope: this.props.slope,
+            maxSupply: this.props.maxSupply,
+            userBalance: this.props.userBalance,
+            artistFee: this.props.artistFee,
+            adminFee: this.props.adminFee
+        }
+
+        this.setState({
+            userActualBlance: boundingData.userBalance,
+        })
+
+        this.boudningCurve.updateData(boundingData.slope, boundingData.maxSupply, boundingData.userBalance, boundingData.artistFee, boundingData.adminFee)
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({ userBalance: nextProps.userBalance });
     }
 
     render() {

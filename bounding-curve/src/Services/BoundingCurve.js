@@ -8,11 +8,22 @@ class BoundingCurve {
         this.userTokenBalance = 0;
         this.reserve = 0;
         this.fees = 0;
+        this.artistFee = 0.15;
+        this.adminFee = 0.03;
 
     }
 
     setUserBalance = (fusdAmount) => {
         this.userBlance += +fusdAmount
+    }
+
+
+    updateData = (slope, maxSupply, userBalance, artistFee, adminFee) => {
+        this.slope = slope;
+        this.maxSupply = maxSupply;
+        this.userBlance = userBalance;
+        this.artistFee = artistFee;
+        this.adminFee = adminFee;
     }
 
 
