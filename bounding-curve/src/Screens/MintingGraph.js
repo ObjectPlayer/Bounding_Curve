@@ -53,7 +53,6 @@ class MintingGraph extends React.Component {
 
     componentDidMount() {
         this.boundingDataUpdate()
-        this.showGraph()
     }
 
     boundingDataUpdate = () => {
@@ -65,12 +64,22 @@ class MintingGraph extends React.Component {
             adminFee: this.props.adminFee
         }
 
+        let series = this.state.series;
+        series[0].data = [];
         this.setState({
-            userActualBlance: boundingData.userBalance, adminFee: boundingData.adminFee, artistFee: boundingData.artistFee
+            userActualBlance: boundingData.userBalance,
+            adminFee: boundingData.adminFee,
+            artistFee: boundingData.artistFee,
+            reserveAmount: 0,
+            totalSupply: 0,
+            totalSupply: 0,
+            series,
+            options: { ...this.state.options, xaxis: { categories: [] } }
         })
 
         this.boudningCurve.updateData(boundingData.slope, boundingData.maxSupply, boundingData.userBalance, boundingData.artistFee, boundingData.adminFee)
 
+        this.showGraph()
     }
 
 

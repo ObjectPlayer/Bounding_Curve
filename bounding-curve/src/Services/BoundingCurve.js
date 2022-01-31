@@ -23,8 +23,16 @@ class BoundingCurve {
         this.slope = slope;
         this.maxSupply = maxSupply;
         this.userBlance = userBalance;
-        this.artistFee = artistFee;
-        this.adminFee = adminFee;
+        this.artistartistFeePercentageFee = artistFee;
+        this.adminFeePercentage = adminFee;
+
+        this.totalSupply = 0;
+        this.userTokenBalance = 0;
+        this.reserve = 0;
+        this.fees = 0;
+        this.adminBalance = 0.0;
+        this.artistBalance = 0.0;
+
     }
 
 
