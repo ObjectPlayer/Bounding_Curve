@@ -1,6 +1,5 @@
 class BoundingCurve {
     constructor() {
-        this.fusdPool = 0;
         this.slope = 0.0005;
         this.maxSupply = 100000000;
         this.totalSupply = 0;
@@ -8,8 +7,10 @@ class BoundingCurve {
         this.userTokenBalance = 0;
         this.reserve = 0;
         this.fees = 0;
-        this.artistFee = 0.15;
-        this.adminFee = 0.03;
+        this.artistFeePercentage = 0.15;
+        this.adminFeePercentage = 0.03;
+        this.adminBalance = 0.0;
+        this.artistBalance = 0.0;
 
     }
 
@@ -36,16 +37,13 @@ class BoundingCurve {
 
 
     mintToken = (amount, fusdAmount) => {
-
         amount = +amount;
         fusdAmount = +fusdAmount;
 
         let mintPrice = this.getMintPrice(amount);
         let supply = this.totalSupply;
-        let fee = (mintPrice * 15) / 100;
-
-
-        this.reserve += mintPrice - fee;
+        let fees = this.distributeFee(fusdAmount);
+        this.reserve += mintPrice - fees;
         this.userBlance -= +fusdAmount;
         this.userTokenBalance += amount;
         this.totalSupply += amount;
@@ -92,6 +90,16 @@ class BoundingCurve {
     showUserBalance = () => {
         return { userBalance: this.userBlance, userTokens: this.userTokenBalance }
     };
+
+    distributeFee = (amount) => {
+        let adminFee = amount * this.adminFeePercentage / 100;
+        let artistFee = amount * this.artistBalance / 100;
+
+        this.adminBalance += adminFee;
+        this.artistBalance += artistFee;
+
+        return adminFee + artistFee
+    }
 }
 
 export default BoundingCurve;
