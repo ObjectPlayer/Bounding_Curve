@@ -10,7 +10,8 @@ class MintingGraph extends React.Component {
             reserveAmount: 0,
             totalSupply: 0,
             userBalancce: 0,
-
+            adminBalance: 0.0,
+            artistBalance: 0.0,
 
             series: [{
                 name: "Price",
@@ -51,8 +52,27 @@ class MintingGraph extends React.Component {
     }
 
     componentDidMount() {
+        this.boundingDataUpdate()
         this.showGraph()
     }
+
+    boundingDataUpdate = () => {
+        let boundingData = {
+            slope: this.props.slope,
+            maxSupply: this.props.maxSupply,
+            userBalance: this.props.userBalance,
+            artistFee: this.props.artistFee,
+            adminFee: this.props.adminFee
+        }
+
+        this.setState({
+            userActualBlance: boundingData.userBalance, adminFee: boundingData.adminFee, artistFee: boundingData.artistFee
+        })
+
+        this.boudningCurve.updateData(boundingData.slope, boundingData.maxSupply, boundingData.userBalance, boundingData.artistFee, boundingData.adminFee)
+
+    }
+
 
     getGraphValue = () => {
         let maxSupply = this.boudningCurve.maxSupply;
@@ -85,20 +105,26 @@ class MintingGraph extends React.Component {
     showGraph = () => {
         let res = this.getGraphValue();
 
-
+        debugger
         let series = res.series;
         let newCategories = res.categories;
 
         this.setState({ series, options: { ...this.state.options, xaxis: { categories: newCategories } } })
 
-        this.setState({ reserveAmount: this.boudningCurve.reserve, totalSupply: this.boudningCurve.totalSupply, userBalancce: this.boudningCurve.userBlance })
+        this.setState({
+            reserveAmount: this.boudningCurve.reserve,
+            totalSupply: this.boudningCurve.totalSupply,
+            userBalancce: this.boudningCurve.userBlance,
+            adminBalance: this.boudningCurve.adminBalance,
+            artistBalance: this.boudningCurve.artistBalance
+        })
 
     }
 
     render() {
         return (
             <div className="App" style={{ marginTop: 20, marginBottom: 30, borderStyle: "solid", padding: 5 }}>
-
+                <input type="button" value={"Refresh"} onClick={this.boundingDataUpdate} />
                 <p style={{ marginBottom: 20 }}>
                     <span>
                         <label>Pool Balance (Reserve) = </label>
@@ -114,7 +140,16 @@ class MintingGraph extends React.Component {
                         <label>User Balance = </label>
                         <label>{this.state.userBalancce}</label>
                     </span>
-
+                    &nbsp; &nbsp;
+                    <span>
+                        <label>Artist Balance = </label>
+                        <label>{this.state.artistBalance}</label>
+                    </span>
+                    &nbsp; &nbsp;
+                    <span>
+                        <label>Admin Balance = </label>
+                        <label>{this.state.adminBalance}</label>
+                    </span>
                 </p>
 
                 <Chart options={this.state.options} series={this.state.series} type="line" height={350} />

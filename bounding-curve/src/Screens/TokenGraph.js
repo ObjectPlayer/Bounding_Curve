@@ -71,7 +71,6 @@ class MintingGraph extends React.Component {
 
     mintTokens = () => {
         if (this.state.userActualBlance - this.state.mintPrice >= 0) {
-            debugger;
             this.boudningCurve.mintToken(this.state.mintingAmount, this.state.mintPrice);
             this.updateData()
             this.updateMintPrice(this.state.mintingAmount)
@@ -81,7 +80,6 @@ class MintingGraph extends React.Component {
     }
 
     burnTokens = () => {
-        debugger;
         if (this.state.userActualtokens - this.state.burningAmount >= 0) {
             this.boudningCurve.burnToken(this.state.burningAmount);
             this.updateData()

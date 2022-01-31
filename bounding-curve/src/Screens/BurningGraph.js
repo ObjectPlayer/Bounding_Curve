@@ -64,10 +64,6 @@ class BurningGraph extends React.Component {
         let supply = 0.5;
 
         for (let i = 0; totalSupply > 0; i++) {
-
-            if (i == 26) {
-                debugger
-            }
             let tokenShouldBurn = supply * 2;
             let burningPrice = this.boudningCurve.getBurnPrice(1);
 
@@ -94,8 +90,6 @@ class BurningGraph extends React.Component {
 
 
     showGraph = () => {
-        debugger;
-
         let res = this.getGraphValue();
 
 
