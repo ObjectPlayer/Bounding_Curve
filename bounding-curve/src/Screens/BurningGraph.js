@@ -10,6 +10,8 @@ class BurningGraph extends React.Component {
             reserveAmount: 0,
             totalSupply: 0,
             userBalancce: 0,
+            adminBalance: 0.0,
+            artistBalance: 0.0,
 
 
             series: [{
@@ -51,9 +53,37 @@ class BurningGraph extends React.Component {
     }
 
     componentDidMount() {
-        this.boudningCurve.updateDataToTestBurning(this.boudningCurve.maxSupply, 18896687408.33174, this.boudningCurve.maxSupply, 1.3272819519042969)
+        this.boundingDataUpdate()
+    }
+
+    boundingDataUpdate = () => {
+        let boundingData = {
+            slope: this.props.slope,
+            maxSupply: this.props.maxSupply,
+            userBalance: this.props.userBalance,
+            artistFee: this.props.artistFee,
+            adminFee: this.props.adminFee
+        }
+
+        let series = this.state.series;
+        series[0].data = [];
+        this.setState({
+            userActualBlance: boundingData.userBalance,
+            adminFee: boundingData.adminFee,
+            artistFee: boundingData.artistFee,
+            reserveAmount: 0,
+            totalSupply: 0,
+            totalSupply: 0,
+            series,
+            options: { ...this.state.options, xaxis: { categories: [] } }
+        })
+
+        this.boudningCurve.updateData(boundingData.slope, boundingData.maxSupply, boundingData.userBalance, boundingData.artistFee, boundingData.adminFee)
+        this.boudningCurve.updateDataToTestBurning(boundingData.maxSupply, boundingData.userBalance, boundingData.maxSupply, 0)
+
         this.showGraph()
     }
+
 
     getGraphValue = () => {
         let totalSupply = this.boudningCurve.totalSupply;
@@ -98,13 +128,20 @@ class BurningGraph extends React.Component {
 
         this.setState({ series, options: { ...this.state.options, xaxis: { categories: newCategories } } })
 
-        this.setState({ reserveAmount: this.boudningCurve.reserve, totalSupply: this.boudningCurve.totalSupply, userBalancce: this.boudningCurve.userBlance })
+        this.setState({
+            reserveAmount: this.boudningCurve.reserve,
+            totalSupply: this.boudningCurve.totalSupply,
+            userBalancce: this.boudningCurve.userBlance,
+            adminBalance: this.boudningCurve.adminBalance,
+            artistBalance: this.boudningCurve.artistBalance
+        })
 
     }
 
     render() {
         return (
             <div className="App" style={{ marginTop: 20, marginBottom: 30, borderStyle: "solid", padding: 5 }}>
+                <input type="button" value={"Refresh"} onClick={this.boundingDataUpdate} />
 
                 <p style={{ marginBottom: 20 }}>
                     <span>
@@ -121,7 +158,6 @@ class BurningGraph extends React.Component {
                         <label>User Balance = </label>
                         <label>{this.state.userBalancce}</label>
                     </span>
-
                 </p>
 
                 <Chart options={this.state.options} series={this.state.series} type="line" height={350} />
