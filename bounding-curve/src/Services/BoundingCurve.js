@@ -88,12 +88,17 @@ class BoundingCurve {
     }
 
     showUserBalance = () => {
-        return { userBalance: this.userBlance, userTokens: this.userTokenBalance }
+        return {
+            userBalance: this.userBlance,
+            userTokens: this.userTokenBalance,
+            adminBalance: this.adminBalance,
+            artistBalance: this.artistBalance
+        }
     };
 
     distributeFee = (amount) => {
         let adminFee = amount * this.adminFeePercentage / 100;
-        let artistFee = amount * this.artistBalance / 100;
+        let artistFee = amount * this.artistFeePercentage / 100;
 
         this.adminBalance += adminFee;
         this.artistBalance += artistFee;

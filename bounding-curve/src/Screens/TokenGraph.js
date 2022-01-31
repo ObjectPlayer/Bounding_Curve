@@ -16,6 +16,10 @@ class MintingGraph extends React.Component {
             burningAmount: 0,
             reserveAmount: 0,
             totalSupply: 0,
+            adminFee: 0.03,
+            artistFee: 0.12,
+            adminBalance: 0.0,
+            artistBalance: 0.0,
 
             series: [{
                 name: "Price",
@@ -56,8 +60,8 @@ class MintingGraph extends React.Component {
     }
 
     showBlanace = () => {
-        let { userBalance, userTokens } = this.boudningCurve.showUserBalance()
-        this.setState({ userActualBlance: userBalance, userActualtokens: userTokens })
+        let { userBalance, userTokens, adminBalance, artistBalance } = this.boudningCurve.showUserBalance()
+        this.setState({ userActualBlance: userBalance, userActualtokens: userTokens, adminBalance, artistBalance })
     }
 
     setUserBalance = () => {
@@ -67,6 +71,7 @@ class MintingGraph extends React.Component {
 
     mintTokens = () => {
         if (this.state.userActualBlance - this.state.mintPrice >= 0) {
+            debugger;
             this.boudningCurve.mintToken(this.state.mintingAmount, this.state.mintPrice);
             this.updateData()
         } else {
@@ -129,7 +134,7 @@ class MintingGraph extends React.Component {
         }
 
         this.setState({
-            userActualBlance: boundingData.userBalance,
+            userActualBlance: boundingData.userBalance, adminFee: boundingData.adminFee, artistFee: boundingData.artistFee
         })
 
         this.boudningCurve.updateData(boundingData.slope, boundingData.maxSupply, boundingData.userBalance, boundingData.artistFee, boundingData.adminFee)
@@ -150,6 +155,16 @@ class MintingGraph extends React.Component {
                         <label>Token Supply = </label>
                         <label>{this.state.totalSupply}</label>
                     </span>
+                    &nbsp; &nbsp;
+                    <span>
+                        <label>Artist Fee = </label>
+                        <label>{this.state.artistFee}</label>
+                    </span>
+                    &nbsp; &nbsp;
+                    <span>
+                        <label>Admin Fee = </label>
+                        <label>{this.state.adminFee}</label>
+                    </span>
                 </p>
 
                 <p style={{ marginBottom: 40 }}>
@@ -162,6 +177,17 @@ class MintingGraph extends React.Component {
                         <label>User Tokens = </label>
                         <label>{this.state.userActualtokens}</label>
                     </span>
+                    &nbsp; &nbsp;
+                    <span>
+                        <label>Admin Balance = </label>
+                        <label>{this.state.adminBalance}</label>
+                    </span>
+                    &nbsp; &nbsp;
+                    <span>
+                        <label>Artis Balance = </label>
+                        <label>{this.state.artistBalance}</label>
+                    </span>
+
                     <p>
                         <label>User Balance : </label>
                         <input type="text" value={this.state.userTempBalance} onChange={(e) => this.setState({ userTempBalance: e.target.value })} />
