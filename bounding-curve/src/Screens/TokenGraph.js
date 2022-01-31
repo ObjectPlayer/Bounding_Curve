@@ -116,6 +116,10 @@ class MintingGraph extends React.Component {
     }
 
     componentDidMount() {
+        this.boundingDataUpdate()
+    }
+
+    boundingDataUpdate = () => {
         let boundingData = {
             slope: this.props.slope,
             maxSupply: this.props.maxSupply,
@@ -129,16 +133,13 @@ class MintingGraph extends React.Component {
         })
 
         this.boudningCurve.updateData(boundingData.slope, boundingData.maxSupply, boundingData.userBalance, boundingData.artistFee, boundingData.adminFee)
-    }
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({ userBalance: nextProps.userBalance });
     }
 
     render() {
         return (
             <div className="App" style={{ marginTop: 20, marginBottom: 30, borderStyle: "solid", padding: 5 }}>
-
+                <input type="button" value={"Refresh"} onClick={this.boundingDataUpdate} />
                 <p style={{ marginBottom: 20 }}>
                     <span>
                         <label>Pool Balance (Reserve) = </label>
