@@ -1,6 +1,6 @@
 # Bounding_Curve
-The core concept of a bonding curve is quite simple: The price of a token is determined by its supply. The more tokens that have been distributed, the higher the price. Bonding curves allow for a fix and predetermined price discovery mechanism, that is set in blockchain stone and cannot be cheated.
-
+Bonding curves are built upon one of the most fundamental concepts in economics: price being a function of supply and demand. This tried and tested economic law is the complex study of a more familiar adage: an asset is only worth what someone is willing to pay for it. The core concept of a bonding curve is quite simple: The price of a token is determined by its supply. The more tokens that have been distributed, the higher the price. Bonding curves allow for a fix and predetermined price discovery mechanism, that is set in blockchain stone and cannot be cheated.
+Every minter needs to deposit some amount to mint spcific amount of tokens and next minter will pay more amount the previsou minter. Same for the bunner, if a user wants to burn his tokens, he can burn and get repective amount of tokens from pool.
 
 
 # Basic methods
