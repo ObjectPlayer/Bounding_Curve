@@ -105,8 +105,8 @@ class BoundingCurve {
     };
 
     distributeFee = (amount) => {
-        let adminFee = amount * this.adminFeePercentage / 100;
-        let artistFee = amount * this.artistFeePercentage / 100;
+        let adminFee = amount * this.adminFeePercentage;
+        let artistFee = amount * this.artistFeePercentage;
 
         this.adminBalance += adminFee;
         this.artistBalance += artistFee;
