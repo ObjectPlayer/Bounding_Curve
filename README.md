@@ -8,48 +8,41 @@ Every minter needs to deposit some amount to mint spcific amount of tokens and n
 ## GetMintPrice 
 This is the method, which will provide you that how much about you have to pay for a specific amount of token, that you want to mint on your account. 
 
-`
+```
     getMintPrice = (amount) => {
         amount = +amount;
-
         let supply = this.totalSupply;
         let newSupply = supply + +amount;
         let reserve = this.reserve;
-
         return supply === 0 ?
             (this.slope * amount * amount) / 2 / 1e4
             :
             (((reserve * newSupply * newSupply) / (supply * supply)) - reserve);
-
     }
-
-`
+```
 
 ## GetBurnPrice 
 This is the method, which will provide you that how much amount you will get if you burn that specific amount of tokens. 
 
-`
+```
     getBurnPrice = (amount) => {
         amount = +amount;
-
         let supply = this.totalSupply;
         let newSupply = supply - +amount;
         let reserve = this.reserve;
         return reserve - ((reserve * newSupply * newSupply) / (supply * supply));
     }
-
-`
+```
 
 
 ## MintTokens 
 This method, will get fiat or reserved-token amount from you and mint tokens on your account. Once tokens are minted it will increament the reserve tokens in pool, total supply of token, distribute fee to among multiple parties. 
 
 
-`
+```
     mintToken = (amount, fusdAmount) => {
         amount = +amount;
         fusdAmount = +fusdAmount;
-
         let mintPrice = this.getMintPrice(amount);
         let supply = this.totalSupply;
         let fees = this.distributeFee(fusdAmount);
@@ -57,25 +50,20 @@ This method, will get fiat or reserved-token amount from you and mint tokens on 
         this.userBlance -= +fusdAmount;
         this.userTokenBalance += amount;
         this.totalSupply += amount;
-
     };
-
-`
+```
 
 ## BurnTokens 
 This method, will get token amount from you which you want to burn and send you reserved-token to your account according to bounding curve. Once tokens are burned it will withdraw the tokens from pool, decrement total supply of token and deposite fiat or reserve-token amount to your account. In this method, we don't need to charge any fee.  
 
-`
+```
     burnToken = (amount) => {
         amount = +amount;
-
         let supply = this.totalSupply;
         let burnPrice = this.getBurnPrice(amount);
-
         this.reserve -= burnPrice;
         this.userBlance += burnPrice;
         this.userTokenBalance -= +amount;
         this.totalSupply -= amount;
     }
-
-`
+```
