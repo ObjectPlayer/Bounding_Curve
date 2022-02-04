@@ -66,5 +66,16 @@ This method, will get fiat or reserved-token amount from you and mint tokens on 
 This method, will get token amount from you which you want to burn and send you reserved-token to your account according to bounding curve. Once tokens are burned it will withdraw the tokens from pool, decrement total supply of token and deposite fiat or reserve-token amount to your account. In this method, we don't need to charge any fee.  
 
 `
+    burnToken = (amount) => {
+        amount = +amount;
+
+        let supply = this.totalSupply;
+        let burnPrice = this.getBurnPrice(amount);
+
+        this.reserve -= burnPrice;
+        this.userBlance += burnPrice;
+        this.userTokenBalance -= +amount;
+        this.totalSupply -= amount;
+    }
 
 `
