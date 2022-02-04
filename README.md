@@ -29,6 +29,14 @@ This is the method, which will provide you that how much about you have to pay f
 This is the method, which will provide you that how much amount you will get if you burn that specific amount of tokens. 
 
 `
+    getBurnPrice = (amount) => {
+        amount = +amount;
+
+        let supply = this.totalSupply;
+        let newSupply = supply - +amount;
+        let reserve = this.reserve;
+        return reserve - ((reserve * newSupply * newSupply) / (supply * supply));
+    }
 
 `
 
@@ -38,6 +46,19 @@ This method, will get fiat or reserved-token amount from you and mint tokens on 
 
 
 `
+    mintToken = (amount, fusdAmount) => {
+        amount = +amount;
+        fusdAmount = +fusdAmount;
+
+        let mintPrice = this.getMintPrice(amount);
+        let supply = this.totalSupply;
+        let fees = this.distributeFee(fusdAmount);
+        this.reserve += mintPrice - fees;
+        this.userBlance -= +fusdAmount;
+        this.userTokenBalance += amount;
+        this.totalSupply += amount;
+
+    };
 
 `
 
