@@ -72,3 +72,14 @@ This method, will get token amount from you which you want to burn and send you 
 We already deployed our code using firebase hosting, so if you want to test our application you can review that easily. Also we provide input options to so any user can update variable accordingly and verify his bounding curve graph. In addition, we have provide minting and burning graph too, with specific token amount with a series minting and burning, so you can verify our formula and review the graph. 
 
 Here is the link of the our sample-site [Sample Code](https://bounding-curve-sample.web.app)
+
+If there is any issue with site, you can see bellow images to get idea of Bounding curve.
+
+### Main or Dynamic Graph
+It is the main graph, in which you can set variable and verify your bouding curve graph. 
+<img src="./images/framwworks.png" alt="Frameworks" /> 
+
+### Minting & Burning Graph
+Here is the complete minting and burning graph, which are generated on a specific max-supply. In minting graph, we are minting tokens in ascending order untill max-supply is not reached and in burning graph, we are burning tokens gradually with some difference untill all minted tokens are not burrned. For more details you can visit our [Sample Code](https://bounding-curve-sample.web.app).
+
+<img src="./images/framwworks.png" alt="Frameworks" /> 
