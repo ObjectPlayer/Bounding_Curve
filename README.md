@@ -77,9 +77,10 @@ If there is any issue with site, you can see bellow images to get idea of Boundi
 
 ### Main or Dynamic Graph
 It is the main graph, in which you can set variable and verify your bouding curve graph. 
-<img src="./images/framwworks.png" alt="Frameworks" /> 
+<img src="./documents/assets/bounding-curve-site-snap-main-graph.png" alt="Minting Graph" /> 
 
 ### Minting & Burning Graph
 Here is the complete minting and burning graph, which are generated on a specific max-supply. In minting graph, we are minting tokens in ascending order untill max-supply is not reached and in burning graph, we are burning tokens gradually with some difference untill all minted tokens are not burrned. For more details you can visit our [Sample Code](https://bounding-curve-sample.web.app).
 
-<img src="./images/framwworks.png" alt="Frameworks" /> 
+<img src="./documents/assets/bounding-curve-site-snap-minting-and-burning-graph.png" alt="Minting & Burning Graph" /> 
+ 
