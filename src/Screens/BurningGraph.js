@@ -33,7 +33,7 @@ class BurningGraph extends React.Component {
                     curve: 'straight'
                 },
                 title: {
-                    text: 'Minting Graph',
+                    text: 'Burning Graph',
                     align: 'left'
                 },
                 grid: {
