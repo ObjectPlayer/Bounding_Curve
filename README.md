@@ -70,4 +70,5 @@ This method, will get token amount from you which you want to burn and send you 
 
 ## Example
 We already deployed our code using firebase hosting, so if you want to test our application you can review that easily. Also we provide input options to so any user can update variable accordingly and verify his bounding curve graph. In addition, we have provide minting and burning graph too, with specific token amount with a series minting and burning, so you can verify our formula and review the graph. 
+
 Here is the link of the our sample-site [Sample Code](https://bounding-curve-sample.web.app)
