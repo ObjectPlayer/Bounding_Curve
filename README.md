@@ -76,7 +76,7 @@ Here is the link of the our sample-site [Sample Code](https://bounding-curve-sam
 If there is any issue with site, you can see bellow images to get idea of Bounding curve.
 
 ### Main or Dynamic Graph
-It is the main graph, in which you can set variable and verify your bouding curve graph. 
+It is the main graph, in which you can set variable like mintTokens, burnTokens, totalSupply and verify your bouding curve graph. 
 <img src="./documents/assets/bounding-curve-site-snap-main-graph.png" alt="Minting Graph" /> 
 
 ### Minting & Burning Graph
